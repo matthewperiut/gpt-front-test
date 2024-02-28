@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPT-3 Demo</title>
+</head>
+<body>
+  <h1>Ask anything</h1>
+  <form id="promptForm">
+    <input type="text" id="promptInput" placeholder="Enter your prompt">
+    <button type="submit">Submit</button>
+  </form>
+  <p>Response:</p>
+  <pre id="response"></pre>
+
+  <script>
+    document.getElementById('promptForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const prompt = document.getElementById('promptInput').value;
+      fetch('/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response').textContent = data;
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
